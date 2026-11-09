@@ -1,0 +1,84 @@
+{
+  "name": "fair-shuffle",
+  "version": "0.3.0",
+  "title": "Fair shuffle",
+  "description": "Random numbers behind one interface: a seeded generator that tests can replay, a crypto-backed generator for play, and a Fisher-Yates shuffle over either.",
+  "facilities": [
+    {
+      "id": "random-source",
+      "description": "Seedable or cryptographic random numbers, integers, picks and shuffles"
+    }
+  ],
+  "provides": [
+    {
+      "id": "random-source",
+      "type": "ae/random-source",
+      "version": "1.0.0",
+      "path": "interfaces/random-source.json"
+    }
+  ],
+  "requires": [],
+  "collect": [
+    {
+      "id": "source",
+      "type": "string",
+      "grammar": "slug",
+      "required": false,
+      "secret": false,
+      "default": "secure"
+    },
+    {
+      "id": "seed",
+      "type": "string",
+      "grammar": "label",
+      "required": false,
+      "secret": false
+    }
+  ],
+  "dependencies": [],
+  "platforms": [
+    "server"
+  ],
+  "tools": {
+    "node": "26.5.0"
+  },
+  "suites": [
+    {
+      "id": "web",
+      "argv": [
+        "node",
+        "--test",
+        "tests/web.test.ts"
+      ]
+    }
+  ],
+  "text": {
+    "purpose": "Games need two kinds of randomness: unpredictable for real play, and repeatable for tests and replays. This component gives both behind one `RandomSource` (next, int, shuffle, pick). `secure` reads the platform's cryptographic generator; `seeded` runs Mulberry32 from a number or text seed so the same seed always gives the same sequence on every platform. The shuffle is Fisher-Yates over whichever source is injected.",
+    "userInputs": "The installer collects two settings. `source` is `secure` (default, for play) or `seeded` (for replayable runs and tests). `seed` is the text used when `source` is `seeded`; as an installer setting it is a label (letters, digits, spaces and hyphens, starting with a letter, such as `replay-7`) and is turned into a number by `seedFromText`; code may also pass a number; a seeded source without a seed is refused.",
+    "integration": "Code that needs randomness takes a `RandomSource` as an argument and never calls `Math.random`. The game engine's `rng: () => number` becomes `source.next`; a function-style generator is wrapped with `sourceFrom`. `card-deck` requires this interface and shuffles through `source.shuffle`. Single platform: server TypeScript. The file uses only standard globals (`crypto`), so it also runs unchanged in a browser, but only the server copy is installed.",
+    "infrastructure": "No deployed service and no accounts. The secure source needs the platform's `crypto.getRandomValues` (Node 20 or later, Workers, browsers).",
+    "verification": "`tests/web.test.ts` checks the Mulberry32 reference sequence, replay by seed, shuffle permutation and input immutability, uniformity over all six orders of three items, bounds and error handling, and the secure source with an injected generator and the real one. Also checks that a label-style seed replays the same deal and that the source's `shuffle(items)` works detached, as card-deck calls it.",
+    "scenarios": "A test run seeds the source with the test name and expects the same deal every time. A live room uses the secure source. A support engineer replays a disputed deal by recording the seed.",
+    "updates": "Patch updates replace the files only. The sequence produced by a given seed is part of the contract: a change to it is a new major version. Removing the component leaves callers without a random source, so supply another `random-source`."
+  },
+  "agentInstructions": "Select this component whenever the recipe needs a shuffle or random choice. Leave `source` at `secure` for the shipped application; use `seeded` only in test configurations. Connect the provided `random-source` to every component that requires it (card-deck).",
+  "developerInstructions": "Inject the source: write `function deal(source: RandomSource)` rather than calling `Math.random`. For tests use `seededSource(\"test name\")`. Nothing needs to be supplied: no accounts or keys.",
+  "suitability": {
+    "format": 1,
+    "jobs": [
+      "fair-shuffle"
+    ],
+    "profiles": [
+      {
+        "id": "any",
+        "load": {},
+        "cost": "none",
+        "regions": [
+          "any"
+        ],
+        "compliance": []
+      }
+    ],
+    "notes": "Pure library; no provider limits apply. The secure source relies on the host's cryptographic generator."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ourapps-ae.fair-shuffle",
+  "name": "Fair shuffle",
+  "kind": "component",
+  "status": "example",
+  "package": "ourapps-ae/fair-shuffle",
+  "version": "0.3.0",
+  "ports": [
+    {
+      "id": "random-source",
+      "name": "Random source",
+      "direction": "output",
+      "kind": "interface",
+      "type": "ae/random-source",
+      "version": "1.0.0"
+    }
+  ],
+  "settings": [
+    {
+      "id": "source",
+      "name": "Source",
+      "type": "string",
+      "required": false,
+      "secret": false,
+      "default": "secure"
+    },
+    {
+      "id": "seed",
+      "name": "Seed",
+      "type": "string",
+      "required": false,
+      "secret": false
+    }
+  ]
+}

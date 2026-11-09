@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "id": "fair-shuffle-connected",
+  "title": "Fair shuffle: connected consumer",
+  "status": "example",
+  "view": "component",
+  "focus": "component",
+  "definitions": [
+    {
+      "id": "ourapps-ae.fair-shuffle",
+      "name": "Fair shuffle",
+      "kind": "component",
+      "status": "example",
+      "package": "ourapps-ae/fair-shuffle",
+      "version": "0.3.0",
+      "ports": [
+        {
+          "id": "random-source",
+          "name": "Random source",
+          "direction": "output",
+          "kind": "interface",
+          "type": "ae/random-source",
+          "version": "1.0.0"
+        }
+      ],
+      "settings": [
+        {
+          "id": "source",
+          "name": "Source",
+          "type": "string",
+          "required": false,
+          "secret": false,
+          "default": "secure"
+        },
+        {
+          "id": "seed",
+          "name": "Seed",
+          "type": "string",
+          "required": false,
+          "secret": false
+        }
+      ]
+    },
+    {
+      "id": "consumer",
+      "name": "Example application consumer",
+      "kind": "application",
+      "status": "example",
+      "revision": "0.1.0",
+      "ports": [
+        {
+          "id": "random-source",
+          "name": "Random source",
+          "direction": "input",
+          "kind": "interface",
+          "type": "ae/random-source",
+          "version": "1.0.0",
+          "required": true,
+          "cardinality": "one"
+        }
+      ],
+      "settings": []
+    }
+  ],
+  "instances": [
+    {
+      "id": "component",
+      "name": "Fair shuffle",
+      "definition": "ourapps-ae.fair-shuffle",
+      "configuration": {}
+    },
+    {
+      "id": "consumer",
+      "name": "Example consumer",
+      "definition": "consumer",
+      "configuration": {}
+    }
+  ],
+  "connections": [
+    {
+      "source": {
+        "instance": "component",
+        "port": "random-source"
+      },
+      "target": {
+        "instance": "consumer",
+        "port": "random-source"
+      }
+    }
+  ]
+}

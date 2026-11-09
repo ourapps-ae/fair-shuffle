@@ -1,0 +1,51 @@
+{
+  "id": "random-source",
+  "type": "ae/random-source",
+  "version": "1.0.0",
+  "operations": {
+    "createSource": {
+      "arguments": ["settings:{source:'secure'|'seeded',seed?:number|string}", "crypto?:CryptoLike"],
+      "returns": "RandomSource"
+    },
+    "seededSource": {
+      "arguments": ["seed:number|string"],
+      "returns": "RandomSource"
+    },
+    "secureSource": {
+      "arguments": ["crypto?:CryptoLike"],
+      "returns": "RandomSource"
+    },
+    "sourceFrom": {
+      "arguments": ["next:()=>number"],
+      "returns": "RandomSource"
+    },
+    "RandomSource.next": {
+      "arguments": [],
+      "returns": "number in [0,1)"
+    },
+    "RandomSource.int": {
+      "arguments": ["bound:number"],
+      "returns": "number in [0,bound)"
+    },
+    "RandomSource.shuffle": {
+      "arguments": ["items:readonly T[]"],
+      "returns": "T[] (copy; Fisher-Yates)"
+    },
+    "RandomSource.pick": {
+      "arguments": ["items:readonly T[]"],
+      "returns": "T"
+    },
+    "shuffle": {
+      "arguments": ["items:readonly T[]", "next:()=>number"],
+      "returns": "T[]"
+    },
+    "randomInt": {
+      "arguments": ["next:()=>number", "bound:number"],
+      "returns": "number"
+    },
+    "seedFromText": {
+      "arguments": ["text:string"],
+      "returns": "number (32-bit)"
+    }
+  }
+}
