@@ -17,10 +17,10 @@ The installer collects two settings. `source` is `secure` (default, for play) or
 - `implementation/server/random.ts` -> `components/fair-shuffle/server/random.ts`
 
 Dependencies: none.
-`tools.lock.json` pins verification tools: node 26.5.0. Licence wording remains deferred.
+`tools.lock.json` pins verification tools: node 26.5.0. Licence: `Apache-2.0` (`LICENCE`, `NOTICE`).
 
 ## Provided interfaces
-- `interfaces/random-source.json` defines `random-source` (ae/random-source) version 1.0.0.
+- `interfaces/random-source.json` defines `random-source` (ae/random-source) version 1.0.0: an OpenRPC 1.3.2 document, one method per function (a member of a created object is `<Type>.<member>`), with parameter, result and data types as JSON Schema 2020-12 (`components.schemas`) and thrown errors under `errors`.
 
 ## Required interfaces
 None.

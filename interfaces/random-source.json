@@ -1,51 +1,445 @@
 {
-  "id": "random-source",
-  "type": "ae/random-source",
-  "version": "1.0.0",
-  "operations": {
-    "createSource": {
-      "arguments": ["settings:{source:'secure'|'seeded',seed?:number|string}", "crypto?:CryptoLike"],
-      "returns": "RandomSource"
+  "openrpc": "1.3.2",
+  "info": {
+    "title": "ae/random-source",
+    "version": "1.0.0",
+    "description": "Random numbers behind one interface: a seeded generator (Mulberry32) tests can replay, and a source backed by the platform's cryptographic generator. TypeScript, `implementation/server/random.ts`. Methods named `RandomSource.<name>` are members of the object the factories return."
+  },
+  "methods": [
+    {
+      "name": "createSource",
+      "description": "Choose a source from installer settings: `secure` for play, `seeded` (with a seed) for replayable runs.",
+      "paramStructure": "by-position",
+      "params": [
+        {
+          "name": "settings",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/SourceSettings"
+          }
+        },
+        {
+          "name": "crypto",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/CryptoLike"
+          },
+          "description": "The cryptographic generator for a secure source; defaults to globalThis.crypto."
+        }
+      ],
+      "result": {
+        "name": "source",
+        "schema": {
+          "$ref": "#/components/schemas/RandomSource"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/SeedMissing"
+        },
+        {
+          "$ref": "#/components/errors/UnknownSource"
+        },
+        {
+          "$ref": "#/components/errors/NoCryptoSource"
+        }
+      ]
     },
-    "seededSource": {
-      "arguments": ["seed:number|string"],
-      "returns": "RandomSource"
+    {
+      "name": "seededSource",
+      "description": "A replayable source. A text seed is first turned into a 32-bit number with seedFromText.",
+      "paramStructure": "by-position",
+      "params": [
+        {
+          "name": "seed",
+          "required": true,
+          "schema": {
+            "type": [
+              "number",
+              "string"
+            ]
+          }
+        }
+      ],
+      "result": {
+        "name": "source",
+        "schema": {
+          "$ref": "#/components/schemas/RandomSource"
+        }
+      }
     },
-    "secureSource": {
-      "arguments": ["crypto?:CryptoLike"],
-      "returns": "RandomSource"
+    {
+      "name": "secureSource",
+      "description": "A source drawing 53 random bits per number from the cryptographic generator.",
+      "paramStructure": "by-position",
+      "params": [
+        {
+          "name": "crypto",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/CryptoLike"
+          },
+          "description": "Defaults to globalThis.crypto."
+        }
+      ],
+      "result": {
+        "name": "source",
+        "schema": {
+          "$ref": "#/components/schemas/RandomSource"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/NoCryptoSource"
+        }
+      ]
     },
-    "sourceFrom": {
-      "arguments": ["next:()=>number"],
-      "returns": "RandomSource"
+    {
+      "name": "sourceFrom",
+      "description": "Wrap any function returning numbers in [0, 1) as a source.",
+      "paramStructure": "by-position",
+      "params": [
+        {
+          "name": "next",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Next"
+          }
+        }
+      ],
+      "result": {
+        "name": "source",
+        "schema": {
+          "$ref": "#/components/schemas/RandomSource"
+        }
+      }
     },
-    "RandomSource.next": {
-      "arguments": [],
-      "returns": "number in [0,1)"
+    {
+      "name": "RandomSource.next",
+      "description": "A number in [0, 1).",
+      "paramStructure": "by-position",
+      "params": [],
+      "result": {
+        "name": "value",
+        "schema": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 1
+        }
+      }
     },
-    "RandomSource.int": {
-      "arguments": ["bound:number"],
-      "returns": "number in [0,bound)"
+    {
+      "name": "RandomSource.int",
+      "description": "A whole number in [0, bound).",
+      "paramStructure": "by-position",
+      "params": [
+        {
+          "name": "bound",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      ],
+      "result": {
+        "name": "value",
+        "schema": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/BadBound"
+        }
+      ]
     },
-    "RandomSource.shuffle": {
-      "arguments": ["items:readonly T[]"],
-      "returns": "T[] (copy; Fisher-Yates)"
+    {
+      "name": "RandomSource.shuffle",
+      "description": "A shuffled copy (Fisher-Yates); the input is not changed.",
+      "paramStructure": "by-position",
+      "params": [
+        {
+          "name": "items",
+          "required": true,
+          "schema": {
+            "type": "array",
+            "items": {}
+          },
+          "description": "Any list; it is not changed."
+        }
+      ],
+      "result": {
+        "name": "shuffled",
+        "description": "The same elements in a new order.",
+        "schema": {
+          "type": "array",
+          "items": {}
+        }
+      }
     },
-    "RandomSource.pick": {
-      "arguments": ["items:readonly T[]"],
-      "returns": "T"
+    {
+      "name": "RandomSource.pick",
+      "description": "One element chosen uniformly.",
+      "paramStructure": "by-position",
+      "params": [
+        {
+          "name": "items",
+          "required": true,
+          "schema": {
+            "type": "array",
+            "items": {}
+          },
+          "description": "Any list; it is not changed."
+        }
+      ],
+      "result": {
+        "name": "element",
+        "description": "An element of items.",
+        "schema": {}
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/EmptyList"
+        }
+      ]
     },
-    "shuffle": {
-      "arguments": ["items:readonly T[]", "next:()=>number"],
-      "returns": "T[]"
+    {
+      "name": "shuffle",
+      "description": "A shuffled copy (Fisher-Yates) using the given number function.",
+      "paramStructure": "by-position",
+      "params": [
+        {
+          "name": "items",
+          "required": true,
+          "schema": {
+            "type": "array",
+            "items": {}
+          },
+          "description": "Any list; it is not changed."
+        },
+        {
+          "name": "next",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Next"
+          }
+        }
+      ],
+      "result": {
+        "name": "shuffled",
+        "schema": {
+          "type": "array",
+          "items": {}
+        }
+      }
     },
-    "randomInt": {
-      "arguments": ["next:()=>number", "bound:number"],
-      "returns": "number"
+    {
+      "name": "randomInt",
+      "description": "A whole number in [0, bound) from the given number function.",
+      "paramStructure": "by-position",
+      "params": [
+        {
+          "name": "next",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Next"
+          }
+        },
+        {
+          "name": "bound",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      ],
+      "result": {
+        "name": "value",
+        "schema": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/BadBound"
+        }
+      ]
     },
-    "seedFromText": {
-      "arguments": ["text:string"],
-      "returns": "number (32-bit)"
+    {
+      "name": "seedFromText",
+      "description": "FNV-1a hash of the text, so a text seed such as a test name gives a fixed number seed.",
+      "paramStructure": "by-position",
+      "params": [
+        {
+          "name": "text",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "seed",
+        "schema": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        }
+      }
+    },
+    {
+      "name": "mulberry32",
+      "description": "The Mulberry32 generator: a number function seeded with a 32-bit number, identical on every platform.",
+      "paramStructure": "by-position",
+      "params": [
+        {
+          "name": "seed",
+          "required": true,
+          "schema": {
+            "type": "number"
+          },
+          "description": "Taken as an unsigned 32-bit integer."
+        }
+      ],
+      "result": {
+        "name": "next",
+        "schema": {
+          "$ref": "#/components/schemas/Next"
+        }
+      }
+    },
+    {
+      "name": "secureNext",
+      "description": "A number function drawing 53 random bits per call from the cryptographic generator.",
+      "paramStructure": "by-position",
+      "params": [
+        {
+          "name": "crypto",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/CryptoLike"
+          },
+          "description": "Defaults to globalThis.crypto."
+        }
+      ],
+      "result": {
+        "name": "next",
+        "schema": {
+          "$ref": "#/components/schemas/Next"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/NoCryptoSource"
+        }
+      ]
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Next": {
+        "description": "A function () => number. Returns a number in [0, 1); the shape a game engine injects as `rng`."
+      },
+      "RandomSource": {
+        "type": "object",
+        "description": "A created source.",
+        "properties": {
+          "next": {
+            "description": "A function next(): number, in [0, 1)."
+          },
+          "int": {
+            "description": "A function int(bound: number): number, a whole number in [0, bound)."
+          },
+          "shuffle": {
+            "description": "A function shuffle<T>(items: readonly T[]): T[], a shuffled copy."
+          },
+          "pick": {
+            "description": "A function pick<T>(items: readonly T[]): T, throws on an empty list."
+          }
+        },
+        "required": [
+          "next",
+          "int",
+          "shuffle",
+          "pick"
+        ]
+      },
+      "CryptoLike": {
+        "type": "object",
+        "description": "The platform's cryptographic generator (Web Crypto).",
+        "properties": {
+          "getRandomValues": {
+            "description": "A function getRandomValues<T extends ArrayBufferView>(array: T): T."
+          }
+        },
+        "required": [
+          "getRandomValues"
+        ]
+      },
+      "SourceSettings": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "enum": [
+              "secure",
+              "seeded"
+            ]
+          },
+          "seed": {
+            "type": [
+              "number",
+              "string"
+            ],
+            "description": "Required when source is seeded; must not be empty."
+          }
+        },
+        "required": [
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "errors": {
+      "SeedMissing": {
+        "code": 1001,
+        "message": "a seeded source needs a seed",
+        "data": {
+          "thrown": "Error"
+        }
+      },
+      "UnknownSource": {
+        "code": 1002,
+        "message": "unknown source <source>",
+        "data": {
+          "thrown": "Error"
+        }
+      },
+      "NoCryptoSource": {
+        "code": 1003,
+        "message": "no cryptographic random source available",
+        "data": {
+          "thrown": "Error"
+        }
+      },
+      "BadBound": {
+        "code": 1004,
+        "message": "bound must be a whole number of at least 1",
+        "data": {
+          "thrown": "RangeError"
+        }
+      },
+      "EmptyList": {
+        "code": 1005,
+        "message": "cannot pick from an empty list",
+        "data": {
+          "thrown": "RangeError"
+        }
+      }
     }
   }
 }
