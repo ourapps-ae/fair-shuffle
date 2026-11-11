@@ -1,6 +1,6 @@
 {
   "name": "fair-shuffle",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "title": "Fair shuffle",
   "description": "Random numbers behind one interface: a seeded generator that tests can replay, a crypto-backed generator for play, and a Fisher-Yates shuffle over either.",
   "facilities": [
