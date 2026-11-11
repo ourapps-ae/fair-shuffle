@@ -1,6 +1,6 @@
 # Source mapping
 
-Reference revision: `19905b75dbea89fbfd424d67fe26c81aaed0e018`. Extraction source: `OurPoker/recipe/` (read-only).
+Reference revision: `19905b75dbea89fbfd424d67fe26c81aaed0e018`. Extraction source: the `recipe/` folder of `ourapps-ae/OurPoker`; paths below are relative to it.
 
 - `implementation/server/random.ts` <- `server/src/cards.ts:29-37` (Fisher-Yates `shuffle(items, rng)`), `server/src/engine.ts:139` (`Deps = { rng: () => number; now }`) and the places the engine draws from `rng`: `engine.ts:376` (seat shuffle), `engine.ts:633` (random first button), `engine.ts:653` (deck shuffle), `engine.ts:836` (computer thinking time).
   - Kept: the algorithm and the `() => number` in [0, 1) shape, so `source.next` drops in where the engine's `deps.rng` was. Same loop direction (`i` from the end), so a given sequence of numbers gives the same arrangement as the recipe.

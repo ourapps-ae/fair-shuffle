@@ -17,7 +17,7 @@ The installer collects two settings. `source` is `secure` (default, for play) or
 - `implementation/server/random.ts` -> `components/fair-shuffle/server/random.ts`
 
 Dependencies: none.
-`tools.lock.json` pins verification tools: node 26.5.0. Licence: `Apache-2.0` (`LICENCE`, `NOTICE`).
+`tools.lock.json` pins verification tools: node 26.5. Licence: `Apache-2.0` (`LICENCE`, `NOTICE`).
 
 ## Provided interfaces
 - `interfaces/random-source.json` defines `random-source` (ae/random-source) version 1.0.0: an OpenRPC 1.3.2 document, one method per function (a member of a created object is `<Type>.<member>`), with parameter, result and data types as JSON Schema 2020-12 (`components.schemas`) and thrown errors under `errors`.
@@ -37,7 +37,7 @@ No deployed service and no accounts. The secure source needs the platform's `cry
 ## Verification
 `tests/web.test.ts` checks the Mulberry32 reference sequence, replay by seed, shuffle permutation and input immutability, uniformity over all six orders of three items, bounds and error handling, and the secure source with an injected generator and the real one. Also checks that a label-style seed replays the same deal and that the source's `shuffle(items)` works detached, as card-deck calls it.
 
-- `node --test tests/web.test.ts` (web, required-local; tools: node 26.5.0)
+- `node --test tests/web.test.ts` (web, required-local; tools: node 26.5)
 
 ## Scenarios and presentation
 A test run seeds the source with the test name and expects the same deal every time. A live room uses the secure source. A support engineer replays a disputed deal by recording the seed.
