@@ -23,7 +23,7 @@
 <text xml:space="preserve" text-anchor="start" x="39.12" y="-181.25" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#edf2fa">Component | Example definition</text>
 <text xml:space="preserve" text-anchor="start" x="84.12" y="-171.25" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#edf2fa">Fair shuffle</text>
 <text xml:space="preserve" text-anchor="start" x="60.12" y="-161.25" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#edf2fa">ourapps&#45;ae/fair&#45;shuffle</text>
-<text xml:space="preserve" text-anchor="start" x="59.75" y="-151.25" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#edf2fa">Example version 0.4.1</text>
+<text xml:space="preserve" text-anchor="start" x="59.75" y="-151.25" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#edf2fa">Example version 0.5.0</text>
 <text xml:space="preserve" text-anchor="start" x="9" y="-123" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#edf2fa">INPUTS</text>
 <text xml:space="preserve" text-anchor="start" x="149.5" y="-123" font-family="Helvetica,sans-Serif" font-size="12.00" fill="#edf2fa">OUTPUTS</text>
 <polygon fill="#222b3a" stroke="none" points="3,-53 3,-113 60,-113 60,-53 3,-53"/>

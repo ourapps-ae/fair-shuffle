@@ -3,7 +3,7 @@
 ## For the agent
 Select this component whenever the recipe needs a shuffle or random choice. Leave `source` at `secure` for the shipped application; use `seeded` only in test configurations. Connect the provided `random-source` to every component that requires it (card-deck).
 
-- Select package `ourapps-ae/fair-shuffle` version `0.4.1`.
+- Select package `ourapps-ae/fair-shuffle` version `0.5.0`.
 - Settings to configure:
   - `source` (string, slug; optional; default `secure`)
   - `seed` (string, label; optional)
