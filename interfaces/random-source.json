@@ -43,6 +43,11 @@
         {
           "$ref": "#/components/errors/NoCryptoSource"
         }
+      ],
+      "tags": [
+        {
+          "name": "typescript"
+        }
       ]
     },
     {
@@ -66,7 +71,12 @@
         "schema": {
           "$ref": "#/components/schemas/RandomSource"
         }
-      }
+      },
+      "tags": [
+        {
+          "name": "typescript"
+        }
+      ]
     },
     {
       "name": "secureSource",
@@ -92,6 +102,11 @@
         {
           "$ref": "#/components/errors/NoCryptoSource"
         }
+      ],
+      "tags": [
+        {
+          "name": "typescript"
+        }
       ]
     },
     {
@@ -112,7 +127,12 @@
         "schema": {
           "$ref": "#/components/schemas/RandomSource"
         }
-      }
+      },
+      "tags": [
+        {
+          "name": "typescript"
+        }
+      ]
     },
     {
       "name": "RandomSource.next",
@@ -126,7 +146,12 @@
           "minimum": 0,
           "exclusiveMaximum": 1
         }
-      }
+      },
+      "tags": [
+        {
+          "name": "typescript"
+        }
+      ]
     },
     {
       "name": "RandomSource.int",
@@ -153,6 +178,11 @@
         {
           "$ref": "#/components/errors/BadBound"
         }
+      ],
+      "tags": [
+        {
+          "name": "typescript"
+        }
       ]
     },
     {
@@ -177,7 +207,12 @@
           "type": "array",
           "items": {}
         }
-      }
+      },
+      "tags": [
+        {
+          "name": "typescript"
+        }
+      ]
     },
     {
       "name": "RandomSource.pick",
@@ -202,6 +237,11 @@
       "errors": [
         {
           "$ref": "#/components/errors/EmptyList"
+        }
+      ],
+      "tags": [
+        {
+          "name": "typescript"
         }
       ]
     },
@@ -233,7 +273,12 @@
           "type": "array",
           "items": {}
         }
-      }
+      },
+      "tags": [
+        {
+          "name": "typescript"
+        }
+      ]
     },
     {
       "name": "randomInt",
@@ -267,6 +312,11 @@
         {
           "$ref": "#/components/errors/BadBound"
         }
+      ],
+      "tags": [
+        {
+          "name": "typescript"
+        }
       ]
     },
     {
@@ -289,7 +339,12 @@
           "minimum": 0,
           "maximum": 4294967295
         }
-      }
+      },
+      "tags": [
+        {
+          "name": "typescript"
+        }
+      ]
     },
     {
       "name": "mulberry32",
@@ -310,7 +365,12 @@
         "schema": {
           "$ref": "#/components/schemas/Next"
         }
-      }
+      },
+      "tags": [
+        {
+          "name": "typescript"
+        }
+      ]
     },
     {
       "name": "secureNext",
@@ -335,6 +395,11 @@
       "errors": [
         {
           "$ref": "#/components/errors/NoCryptoSource"
+        }
+      ],
+      "tags": [
+        {
+          "name": "typescript"
         }
       ]
     }
@@ -441,5 +506,8 @@
         }
       }
     }
+  },
+  "x-ourapps-modules": {
+    "server": "server/index.ts"
   }
 }

@@ -1,6 +1,12 @@
 {
   "artefacts": [
     {
+      "destination": "components/fair-shuffle/server/index.ts",
+      "executable": false,
+      "source": "implementation/server/index.ts",
+      "template": false
+    },
+    {
       "destination": "components/fair-shuffle/server/random.ts",
       "executable": false,
       "source": "implementation/server/random.ts",
@@ -11,6 +17,7 @@
     "hosts": [],
     "secrets": [],
     "writes": [
+      "components/fair-shuffle/server/index.ts",
       "components/fair-shuffle/server/random.ts"
     ]
   },
@@ -73,6 +80,10 @@
     {
       "executable": false,
       "path": "examples/consumer.ts"
+    },
+    {
+      "executable": false,
+      "path": "implementation/server/index.ts"
     },
     {
       "executable": false,
